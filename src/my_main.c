@@ -36,7 +36,7 @@ void my_main(void)
 
   WDTFeed();
 }
-
+/*
 ParserReturnVal_t CmdLed(int mode)
 {
   uint32_t val,rc;
@@ -60,4 +60,5 @@ ParserReturnVal_t CmdLed(int mode)
 }
 
 ADD_CMD("led",CmdLed,"0 | 1           Control LED")
+*/
 
