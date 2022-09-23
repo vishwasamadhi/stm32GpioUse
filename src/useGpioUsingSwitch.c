@@ -83,6 +83,7 @@ ADD_TASK(useGpio,  /* This is the name of the function for the task */
 	 0,            /* This is the number of milliseconds between calls */
 	 "This is the help text for the task")
 
+
   ParserReturnVal_t CmdGpioPin(int mode)
 {
   uint32_t gpio,rc1; 			//initialize the variables  
@@ -101,15 +102,65 @@ ADD_TASK(useGpio,  /* This is the name of the function for the task */
 	BSRR register is used for bit set/reset. So, each output can be set to high using
  	integer values of 2^1, 2^2,......,2^15
  	*/
- 		
- 	HAL_GPIO_WritePin(GPIOA,gpio,pinState); 
+	HAL_GPIO_WritePin(GPIOA,gpio,pinState); 
+
+/*
+switch(gpio)
+{
+	case 1:
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_1,pinState);
+	break;
 	
-
-
+	case 4:
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_4,pinState);
+	break;
+	
+	case 5:
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,pinState);
+	break;
+	
+	case 6:
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_6,pinState);
+	break;
+	
+	case 7:
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_7,pinState);
+	break;
+	
+	case 8:
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_8,pinState);
+	break;
+	
+	case 9:
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9,pinState);
+	break;
+	
+	case 10:
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_10,pinState);
+	break;
+	
+	case 11:
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_11,pinState);
+	break;
+	
+	case 12:
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12,pinState);
+	break;
+	
+	case 15:
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_15,pinState);
+	break;
+	
+	default:
+		printf("Please enter valid GPIO pin\n");
+		
+		
+}
+*/
   return CmdReturnOk;
 }
 
-ADD_CMD("pin",CmdGpioPin,"	pin <GPIOA no, 0~15> <State, 0|1>     	\n"  // values to set gpio pins
+ADD_CMD("pin",CmdGpioPin,"	pin <GPIOA no, 0~15> <State, 0|1>     	\n"
 		 "							\n"	
 		 "			PA0 : 1		PA8 : 256	\n"
 		 "			PA1 : 2		PA9 : 512      	\n"
@@ -117,35 +168,6 @@ ADD_CMD("pin",CmdGpioPin,"	pin <GPIOA no, 0~15> <State, 0|1>     	\n"  // values
 		 "			PA5 : 32	PA11: 2048	\n"
 		 "			PA6 : 64	PA12: 4096	\n"
 		 "			PA7 : 128	PA15: 32768	\n")
-
-  ParserReturnVal_t CmdGpioTest(int mode)
-{
-
- if(mode != CMD_INTERACTIVE) return CmdReturnOk;
-
-  /* Put your command implementation here */
-  printf("All gpioa pin set in a for loop\n");
-  
-
-	/*
-	BSRR register is used for bit set/reset. So, each output can be set to high using
- 	integer values of 2^1, 2^2,......,2^15
- 	*/
-
- 	for(int32_t gpio = 1 ; gpio <= 32768 ; gpio = gpio *2)
- 	{
- 		HAL_GPIO_WritePin(GPIOA,gpio,1); 
- 		HAL_Delay(1000);
- 		HAL_GPIO_WritePin(GPIOA,gpio,0); 
- 		HAL_Delay(100);
- 	}
-
-	
-	return CmdReturnOk;
-}
-
-ADD_CMD("testGpio",CmdGpioTest,"	 set all GPIOA pins 	\n") // test all gpioa pin 
-
 
 
 

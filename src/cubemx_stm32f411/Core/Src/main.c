@@ -45,7 +45,7 @@ IWDG_HandleTypeDef hiwdg;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
- extern uint32_t rc,pinState;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
