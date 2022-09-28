@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <stdint.h>
+#include <math.h>
 
 #include "common.h"
 #include "main.h"
@@ -85,7 +86,7 @@ ADD_TASK(useGpio,  /* This is the name of the function for the task */
 
   ParserReturnVal_t CmdGpioPin(int mode)
 {
-  uint32_t gpio,rc1; 			//initialize the variables  
+  uint32_t gpio,regVal,rc1; 			//initialize the variables  
   uint32_t pinState,rc2;
 
   if(mode != CMD_INTERACTIVE) return CmdReturnOk; 	//check the commands
@@ -101,8 +102,10 @@ ADD_TASK(useGpio,  /* This is the name of the function for the task */
 	BSRR register is used for bit set/reset. So, each output can be set to high using
  	integer values of 2^1, 2^2,......,2^15
  	*/
- 		
- 	HAL_GPIO_WritePin(GPIOA,gpio,pinState); 
+ 	regVal = pow(2, gpio); //find the BSRR value using pin no, use math library to find the power	
+ 	
+ 	
+ 	HAL_GPIO_WritePin(GPIOA,regVal,pinState); 
 	
 
 
@@ -133,11 +136,19 @@ ADD_CMD("pin",CmdGpioPin,"	pin <GPIOA no, 0~15> <State, 0|1>     	\n"  // values
  	*/
 
  	for(int32_t gpio = 1 ; gpio <= 32768 ; gpio = gpio *2)
- 	{
- 		HAL_GPIO_WritePin(GPIOA,gpio,1); 
- 		HAL_Delay(1000);
- 		HAL_GPIO_WritePin(GPIOA,gpio,0); 
- 		HAL_Delay(100);
+ 	{	
+ 		if((gpio == 4)|(gpio == 8)|(gpio == 8192)|(gpio == 16384))//except GPIOA 2,3,13,14
+ 		{
+ 			continue;
+ 		}
+ 		else{
+ 		
+ 			HAL_GPIO_WritePin(GPIOA,gpio,1); 
+	 		HAL_Delay(1000);
+	 		HAL_GPIO_WritePin(GPIOA,gpio,0); 
+	 		HAL_Delay(100);	
+ 		}
+ 		
  	}
 
 	
